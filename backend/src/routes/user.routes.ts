@@ -12,6 +12,11 @@ const router = Router();
 router.get("/users", async (req: TenantRequest, res: Response) => {
   try {
     const role = (req.query.role as string) || "admin";
+
+    if (!role || !["admin", "super-admin"].includes(role)) {
+        return res.status(400).json({ message: "Invalid role" });
+}
+
     const page = Number(req.query.page || 1);
     const limit = Number(req.query.limit || 10);
 

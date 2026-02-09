@@ -12,6 +12,9 @@ export default function UserListPage() {
     role?: string;
   };
 
+  const validRoles = ["admin", "super-admin"];
+    
+
   const [page, setPage] = useState<number>(1);
 
   const isReady = router.isReady && Boolean(tenantId) && Boolean(role);
@@ -38,6 +41,10 @@ export default function UserListPage() {
   if (!data) {
     return null;
   }
+
+  if (role && !validRoles.includes(role)) {
+    return <div className={styles.error}>Invalid role specified</div>;
+ }
 
   const totalPages = Math.ceil(data.total / PAGE_SIZE);
 
